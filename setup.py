@@ -37,6 +37,7 @@ setup(
     packages=[
         'madis',
         'madis.utils',
+        'madis.ros',
         'madis.sensors'
     ]
 )
