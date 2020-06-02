@@ -20,17 +20,32 @@ A dummy set of sensors for simulate data inside the DRONE.
 
 """
 
-from abc import ABC, abstractmethod
+from madis.sensors.sensor import Sensor
+import json
 
 
-class Sensor(ABC):
+class DummySensorGPS(Sensor):
     def __init__(self):
-        pass
+        Sensor.__init__(self)
+        self._altitude = None
+        self._latitude = None
+        self._longitude = None
+        self._heading = None
+        self._data = {"latitude": None, "longitude": None, "altitude": None, "heading": None}
 
-    @abstractmethod
     def initialize_sensor(self):
-        pass
+        self._altitude = 2.5            # meters
+        self._latitude = 44.078855      # wgs84
+        self._longitude = 10.012132     # wgs84
+        self._heading = 23.4            # degrees
 
-    @abstractmethod
     def read_from_sensor(self):
-        pass
+        self._prepare_dummy_data()
+        json_data = json.dumps(self._data)
+        return json_data
+
+    def _prepare_dummy_data(self):
+        self._data["latitude"] = self._latitude
+        self._data["longitude"] = self._longitude
+        self._data["altitude"] = self._altitude
+        self._data["heading"] = self._heading

@@ -1,15 +1,24 @@
-﻿#######################################################
-#                                                     #
-# NATO STO CMRE - La Spezia                           #
-#                                                     #
-# Framework for protocol/data management exchange     #
-#                                                     #
-#     Author: Renato Sirola (CTR)                     #
-#     E-mail: renato.sirola@cmre.nato.int             #
-#       Date: October 2016                            #
-# Department: E.T.D.                                  #
-#                                                     #
-#######################################################
+﻿"""
+
+##     ##        ###        ########
+###   ###       ## ##       ##     ##
+#### ####      ##   ##      ##     ##
+## ### ##     ##     ##     ##     ##
+##     ##     #########     ##     ##
+##     ## ### ##     ## ### ##     ## ###
+##     ## ### ##     ## ### ########  ###
+
+MAD - M1ch3al Autonomous Drone
+This class belong to MADIS (M1ch3al Autonomous Drone Internal System)
+
+       Author: SIROLA RENATO
+Creation Date: 2020-06-02
+       E-mail: renato.sirola@gmail.com
+
+Content:
+A set utility that allow you to work with time and date
+
+"""
 
 import datetime
 import time
