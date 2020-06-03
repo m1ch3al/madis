@@ -21,6 +21,7 @@ Abstract class for represent various sensor inside the DRONE.
 """
 
 from abc import ABC, abstractmethod
+from madis.utils.time_date import from_str, date2epoch
 
 
 class Sensor(ABC):
@@ -35,3 +36,5 @@ class Sensor(ABC):
     def read_from_sensor(self):
         pass
 
+    def get_utc_time(self):
+        return date2epoch(from_str("now", is_utc=True))

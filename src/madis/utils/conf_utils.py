@@ -22,17 +22,19 @@ A configuration system for MAD
 
 import yaml
 import os
+from madis.utils.blackboard import BlackBoard
 
 
 def read_mad_configuration(main_mad_configuration_file):
     mad_configuration = {}
-
     with open(main_mad_configuration_file, "r") as yaml_file_descriptor:
         initial_configuration = yaml.safe_load(yaml_file_descriptor)
     yaml_file_descriptor.close()
-
+    blackboard = BlackBoard()
+    blackboard.insert_value("initial_configuration", initial_configuration, 0)
     sensors_configuration = read_sensors_configuration(main_mad_configuration_file, initial_configuration)
     mad_configuration["sensors"] = sensors_configuration
+    ros_publishers = read_ros_node_configuration(initial_configuration)
     return mad_configuration
 
 
@@ -47,3 +49,8 @@ def read_sensors_configuration(main_mad_configuration_file, initial_configuratio
     return mad_configuration
 
 
+def read_ros_node_configuration(initial_configuration=None):
+    if initial_configuration is None:
+        blackboard = BlackBoard()
+        initial_configuration = blackboard.get_value("initial_configuration")
+    return initial_configuration["ros-nodes"]

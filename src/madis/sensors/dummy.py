@@ -31,7 +31,7 @@ class DummySensorGPS(Sensor):
         self._latitude = None
         self._longitude = None
         self._heading = None
-        self._data = {"latitude": None, "longitude": None, "altitude": None, "heading": None}
+        self._data = {"time": None, "latitude": None, "longitude": None, "altitude": None, "heading": None}
 
     def initialize_sensor(self):
         self._altitude = 2.5            # meters
@@ -49,6 +49,7 @@ class DummySensorGPS(Sensor):
         self._data["longitude"] = self._longitude
         self._data["altitude"] = self._altitude
         self._data["heading"] = self._heading
+        self._data["time"] = self.get_utc_time()
 
 
 class DummySensorTempPressureAltitude(Sensor):
@@ -57,7 +58,7 @@ class DummySensorTempPressureAltitude(Sensor):
         self._altitude = None
         self._pressure = None
         self._temperature = None
-        self._data = {"altitude": None, "pressure": None, "temperature": None}
+        self._data = {"time": None, "altitude": None, "pressure": None, "temperature": None}
 
     def initialize_sensor(self):
         self._altitude = 2.3           # meters
@@ -73,13 +74,14 @@ class DummySensorTempPressureAltitude(Sensor):
         self._data["altitude"] = self._altitude
         self._data["pressure"] = self._pressure
         self._data["temperature"] = self._temperature
+        self._data["time"] = self.get_utc_time()
 
 
 class DummySensorSonar(Sensor):
     def __init__(self):
         Sensor.__init__(self)
         self._distance = None
-        self._data = {"distance": None}
+        self._data = {"time": None, "distance": None}
 
     def initialize_sensor(self):
         self._distance = 150           # centimeters
@@ -91,6 +93,7 @@ class DummySensorSonar(Sensor):
 
     def _prepare_dummy_data(self):
         self._data["distance"] = self._distance
+        self._data["time"] = self.get_utc_time()
 
 
 class DummySensorAccelGyro(Sensor):
@@ -102,7 +105,7 @@ class DummySensorAccelGyro(Sensor):
         self._gyro_x = None
         self._gyro_y = None
         self._gyro_z = None
-        self._data = {"acceleration_x": None, "acceleration_y": None, "acceleration_z": None,
+        self._data = {"time": None, "acceleration_x": None, "acceleration_y": None, "acceleration_z": None,
                       "gyroscope_x": None, "gyroscope_y": None, "gyroscope_z": None}
 
     def initialize_sensor(self):
@@ -125,3 +128,4 @@ class DummySensorAccelGyro(Sensor):
         self._data["gyroscope_x"] = self._gyro_x
         self._data["gyroscope_y"] = self._gyro_y
         self._data["gyroscope_z"] = self._gyro_z
+        self._data["time"] = self.get_utc_time()
