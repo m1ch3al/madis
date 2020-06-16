@@ -44,10 +44,10 @@ class BME280Sensor(Sensor):
         self._temperature = self._bme280.temperature    # celsius
         self._humidity = self._bme280.humidity          # Percentage
         self._data["time"] = self.get_utc_time()
-        self._data["altitude"] = self._altitude
-        self._data["pressure"] = self._pressure
-        self._data["temperature"] = self._temperature
-        self._data["humidity"] = self._humidity
+        self._data["altitude"] = round(self._altitude, 3)
+        self._data["pressure"] = round(self._pressure, 3)
+        self._data["temperature"] = round(self._temperature, 3)
+        self._data["humidity"] = round(self._humidity, 3)
         json_data = json.dumps(self._data)
         return json_data
 
