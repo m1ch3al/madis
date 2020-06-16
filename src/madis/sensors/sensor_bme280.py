@@ -43,6 +43,11 @@ class BME280Sensor(Sensor):
         self._pressure = self._bme280.pressure          # hPa (hectopascals)
         self._temperature = self._bme280.temperature    # celsius
         self._humidity = self._bme280.humidity          # Percentage
+        self._data["time"] = self.get_utc_time()
+        self._data["altitude"] = self._altitude
+        self._data["pressure"] = self._pressure
+        self._data["temperature"] = self._temperature
+        self._data["humidity"] = self._humidity
         json_data = json.dumps(self._data)
         return json_data
 
