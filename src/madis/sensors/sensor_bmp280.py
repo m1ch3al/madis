@@ -1,13 +1,10 @@
-from madis.sensors.sensor import Sensor
-import smbus2
-import bme280
-import time
-import os
-import time
 import json
+import time
+
+import adafruit_bme280
 import board
 import busio
-import adafruit_bme280
+from madis.sensors.sensor import Sensor
 
 
 class BME280Sensor(Sensor):
