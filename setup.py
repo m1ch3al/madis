@@ -38,7 +38,8 @@ setup(
         'madis',
         'madis.utils',
         'madis.ros',
-        'madis.sensors'
+        'madis.sensors',
+        'madis.tests',
     ]
 )
 
