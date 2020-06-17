@@ -8,8 +8,9 @@ class BN880Sensor(Sensor):
     def __init__(self):
         Sensor.__init__(self)
         self._bn880 = None
-        self._data = {"time": None, "gps-time": None, "latitude": None, "longitude": None, "status": None,
-                      "mode": None, "device": None, "epx": None, "epy": None, "epv": None, "eps": None, "speed": None}
+        self._data = {"time": None, "device": None, "status": None, "mode": None, "gps-time": None,
+                      "ept": None, "latitude": None, "longitude": None, "altitude": None,
+                      "epx": None, "epy": None, "epv": None, "eps": None, "speed": None}
 
     def initialize_sensor(self):
         self._bn880 = gps(mode=WATCH_ENABLE|WATCH_NEWSTYLE)

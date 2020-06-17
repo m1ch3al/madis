@@ -14,10 +14,10 @@ class TestBN880Sensor(unittest.TestCase):
         while counter < cycles:
             os.system("clear")
             json_data = bn880_sensor.read_from_sensor()
-            accelerometer_data = json.loads(json_data)
-            print(accelerometer_data)
+            gps_data = json.loads(json_data)
+            print(gps_data)
             counter += 1
-            time.sleep(0.1)
+            time.sleep(0.5)
 
 
 if __name__ == '__main__':
