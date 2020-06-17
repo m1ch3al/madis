@@ -33,6 +33,7 @@ setup(
         'setuptools',
         'PyYAML',
         'pyserial',
+        'gps',
     ],
     packages=[
         'madis',
