@@ -24,14 +24,15 @@ from madis.utils.conf_utils import *
 import time
 from madis.utils.blackboard import BlackBoard
 import subprocess
+import os.path
 
 
 def main():
-    mad_configuration = read_mad_configuration("/home/micheal/.madics/mad-configuration.yaml")
+    homedir = os.path.expanduser("~")
+    mad_configuration = read_mad_configuration("{}/.madics/mad-configuration.yaml".format(homedir))
     # Creates ROS publishers
     preload()
-    create_ros_nodes("/home/micheal/.madics/mad-configuration.yaml")
-
+    create_ros_nodes("/home/{}/.madics/mad-configuration.yaml".format(homedir))
     while True:
         time.sleep(10)
 
