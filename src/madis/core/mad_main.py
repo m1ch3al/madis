@@ -32,7 +32,7 @@ def main():
     mad_configuration = read_mad_configuration("{}/.madics/mad-configuration.yaml".format(homedir))
     # Creates ROS publishers
     preload()
-    create_ros_nodes("/home/{}/.madics/mad-configuration.yaml".format(homedir))
+    create_ros_nodes("{}/.madics/mad-configuration.yaml".format(homedir))
     while True:
         time.sleep(10)
 

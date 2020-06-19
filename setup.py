@@ -34,6 +34,7 @@ setup(
         'PyYAML',
         'pyserial',
         'gps',
+        'rospkg',
     ],
     packages=[
         'madis',
