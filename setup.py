@@ -35,9 +35,11 @@ setup(
         'pyserial',
         'gps',
         'rospkg',
+        'pigpio',
     ],
     packages=[
         'madis',
+        'madis.core',
         'madis.utils',
         'madis.ros',
         'madis.sensors',
