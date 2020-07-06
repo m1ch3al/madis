@@ -22,7 +22,7 @@ class Motor(object):
         if percentage > 100:
             raise ValueError("Speed percentage is TOO HIGH - use value between 0 and 100")
         value_to_set = ((self._max_value - self._min_value) * (percentage/100)) + self._min_value
-        #print("value_to_set : {}".format(value_to_set))
+        print("value_to_set : {}".format(value_to_set))
         self._esc_driver.set_speed(int(value_to_set))
         self._current_speed_percentage = percentage
 
@@ -55,27 +55,14 @@ class Motor(object):
 import time
 
 def main():
-    print("Start motor test...")
-    motor = Motor(motor_id=1, gpio_pin=20, max_value=1700, min_value=1100)
-    print("Do you want to calibrate the motor ? (y/n) : ")
-    inp = input()
-    if inp.lower() == "y":
-        motor.calibrate()
-    else:
-        print("skipping calibration...")
-        motor._esc_driver.arm_esc()
-    stop = False
-    while not stop:
-        print("Insert speed in percentage (0-100) or x for exit: ")
-        speed_requested = input()
-        if speed_requested.lower() == "x":
-            stop = True
-        else:
-            motor.set_speed(float(speed_requested))
+    motor = Motor(motor_id=1, gpio_pin=20, max_value=1700, min_value=1180)
+    motor.calibrate()
+
+    motor.set_speed(20)
+    time.sleep(5)
     motor.stop_motor()
 
 
 if __name__ == "__main__":
     main()
-
 

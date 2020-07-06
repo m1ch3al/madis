@@ -51,9 +51,9 @@ class ESCDriver(object):
             if inp == '':
                 self.set_speed(self._min_value)
                 print("Now you should have heard a special tone....12 seconds from now")
-                for i in reversed(range(12, 1)):
+                for i in range(1, 12):
                     time.sleep(1)
-                    print("{} - ".format(i))
+                    print("Waiting : {}".format(i))
                 print("done")
                 print("Setting speed to zero.....waiting 2 seconds")
                 self.set_speed(0)
