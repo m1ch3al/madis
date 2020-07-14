@@ -7,7 +7,7 @@ import yaml
 
 
 class StabilizerWith2Motors(object):
-    def __init__(self, gpio_motor_A, gpio_motor_B, min_value=1000, max_value=1700):
+    def __init__(self, gpio_motor_A, gpio_motor_B, min_value=1100, max_value=1700):
         self._gpio_motor_A = gpio_motor_A
         self._gpio_motor_B = gpio_motor_B
         self._min_value = min_value
@@ -35,6 +35,8 @@ class StabilizerWith2Motors(object):
         stabilizer_data = yaml.safe_load(ros_data.data)
         accel_x = stabilizer_data["acceleration_x"]
         accel_y = stabilizer_data["acceleration_y"]
+        self._motor_A.set_speed(15)
+        self._motor_A.set_speed(15)
 
 
 def main():

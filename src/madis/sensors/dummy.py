@@ -109,9 +109,9 @@ class DummySensorAccelGyro(Sensor):
                       "gyroscope_x": None, "gyroscope_y": None, "gyroscope_z": None}
 
     def initialize_sensor(self):
-        self._acc_x = 0.34234
-        self._acc_y = 0.57432
-        self._acc_z = 0.35123
+        self._acc_x = 0.04234
+        self._acc_y = 0.07432
+        self._acc_z = 0.05123
         self._gyro_x = 0.3214132
         self._gyro_y = 0.52352
         self._gyro_z = 0.023423
