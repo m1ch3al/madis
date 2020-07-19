@@ -22,13 +22,14 @@ class Motor(object):
         if percentage > 100:
             raise ValueError("Speed percentage is TOO HIGH - use value between 0 and 100")
         value_to_set = ((self._max_value - self._min_value) * (percentage/100)) + self._min_value
-        #print("value_to_set : {}".format(value_to_set))
         self._esc_driver.set_speed(int(value_to_set))
         self._current_speed_percentage = percentage
+        print("value_to_set : {}".format(value_to_set))
+        print("current percentage speed : {}%".format(self._current_speed_percentage))
 
     def get_current_speed(self):
         esc_speed = self._esc_driver.get_current_speed()
-        self._current_speed_percentage = round(((esc_speed - self._min_value)/(self._max_value - self._min_value)), 1)
+        self._current_speed_percentage = round(((esc_speed - self._min_value)/(self._max_value - self._min_value)), 1) * 100
         return self._current_speed_percentage
 
     def stop_motor(self):
@@ -71,7 +72,17 @@ def main():
         if speed_requested.lower() == "x":
             stop = True
         else:
-            motor.set_speed(float(speed_requested))
+            if speed_requested == "+":
+                motor.increase_speed()
+                print("increasing speed - Motor speed : {} %".format(motor.get_current_speed()))
+            if speed_requested == "-":
+                motor.decrease_speed()
+                print("decrease speed - Motor speed : {} %".format(motor.get_current_speed()))
+            try:
+                motor.set_speed(float(speed_requested))
+                print("Set speed - Motor speed : {} %".format(motor.get_current_speed()))
+            except Exception as ex:
+                pass
     motor.stop_motor()
 
 

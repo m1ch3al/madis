@@ -41,28 +41,24 @@ class ESCDriver(object):
 
     def calibrate_esc(self):
         self.set_speed(0)
-        print("Disconnect the battery and press Enter")
-        inp = input()
-        if inp == '':
-            self.set_speed(self._max_value)
-            print("Connect the battery NOW.. you will hear two beeps, then wait for a gradual falling tone...after "
-                  "then press Enter")
-            inp = input()
-            if inp == '':
-                self.set_speed(self._min_value)
-                print("Now you should have heard a special tone....12 seconds from now")
-                for i in range(1, 12):
-                    time.sleep(1)
-                    print("Waiting : {}".format(i))
-                print("done")
-                print("Setting speed to zero.....waiting 2 seconds")
-                self.set_speed(0)
-                time.sleep(2)
-                print("Arming ESC now...")
-                self.set_speed(self._min_value)
-                time.sleep(1)
-                print("ESC is now calibrated correctly")
-
+        print("Disconnect the battery and press Enter in 10 seconds...")
+        time.sleep(10)
+        self.set_speed(self._max_value)
+        print("Connect the battery NOW.. you will hear two beeps, then wait for a gradual falling tone...you have 10 seconds")
+        time.sleep(10)
+        self.set_speed(self._min_value)
+        print("Now you should have heard a special tone....12 seconds from now")
+        for i in range(1, 12):
+            time.sleep(1)
+            print("Waiting : {}".format(i))
+        print("done")
+        print("Setting speed to zero.....waiting 2 seconds")
+        self.set_speed(0)
+        time.sleep(2)
+        print("Arming ESC now...")
+        self.set_speed(self._min_value)
+        time.sleep(1)
+        print("ESC is now calibrated correctly")
 
 import os
 

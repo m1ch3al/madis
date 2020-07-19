@@ -43,8 +43,11 @@ def main():
     stabilizer = StabilizerWith2Motors(gpio_motor_A=16, gpio_motor_B=20)
     stabilizer.subscribe_into_MAD_system()
     stabilizer.initialize_motors()
-    while True:
-        time.sleep(10)
+    try:
+        while True:
+            time.sleep(10)
+    except KeyboardInterrupt:
+        pass
 
 
 if __name__ == "__main__":

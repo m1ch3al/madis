@@ -23,10 +23,13 @@ A configuration system for MAD
 import yaml
 import os
 from madis.utils.blackboard import BlackBoard
+from madis.utils.logger_utils import get_logger
 
 
 def read_mad_configuration(main_mad_configuration_file):
+    logger = get_logger("conf_utils.read_mad_configuration")
     mad_configuration = {}
+    logger.debug("reading configuration [{}]".format(main_mad_configuration_file))
     with open(main_mad_configuration_file, "r") as yaml_file_descriptor:
         initial_configuration = yaml.safe_load(yaml_file_descriptor)
     yaml_file_descriptor.close()
@@ -35,16 +38,20 @@ def read_mad_configuration(main_mad_configuration_file):
     sensors_configuration = read_sensors_configuration(main_mad_configuration_file, initial_configuration)
     mad_configuration["sensors"] = sensors_configuration
     ros_publishers = read_ros_node_configuration(initial_configuration)
+    logger.debug("I'm finished to read the drone configuration")
     return mad_configuration
 
 
 def read_sensors_configuration(main_mad_configuration_file, initial_configuration):
+    logger = get_logger("conf_utils.read_sensors_configuration")
     mad_configuration = {}
+    logger.debug("Loading SENSOR(S) configuration")
     for element in initial_configuration["sensors-configuration"]:
         full_path_sensor_configuration = os.path.join(os.path.dirname(main_mad_configuration_file), initial_configuration["sensors-configuration"][element])
         with open(full_path_sensor_configuration, "r") as yaml_file_descriptor:
             sensor_configuration = yaml.safe_load(yaml_file_descriptor)
             mad_configuration[sensor_configuration["configuration-name"]] = sensor_configuration
+            logger.debug("Reading sensor configuration -> type: {} - driver: {}".format(sensor_configuration["configuration-name"], sensor_configuration["driver-class"]))
     yaml_file_descriptor.close()
     return mad_configuration
 
