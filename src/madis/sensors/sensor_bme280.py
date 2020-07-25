@@ -48,6 +48,5 @@ class BME280Sensor(Sensor):
         self._data["pressure"] = round(self._pressure, 3)
         self._data["temperature"] = round(self._temperature, 3)
         self._data["humidity"] = round(self._humidity, 3)
-        json_data = json.dumps(self._data)
-        return json_data
+        return self._data
 

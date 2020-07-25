@@ -18,8 +18,7 @@ class BN880Sensor(Sensor):
 
     def read_from_sensor(self):
         self._read_from_sensor()
-        json_data = json.dumps(self._data)
-        return json_data
+        return self._data
 
     def _read_from_sensor(self):
         self._data["time"] = self.get_utc_time()
@@ -33,7 +32,6 @@ class BN880Sensor(Sensor):
             # 6=GNSSDR fix, 7=Time (surveyed) fix, 8=Simulated, 9=P(Y) fix, otherwise not present.
             # Similar to FAA Quality Indicator in NMEA.
             self._data["status"] = getattr(nx, "status", None)
-
             self._data["mode"] = getattr(nx, "mode", None)          # NMEA mode: %d, 0=no mode value yet seen, 1=no fix, 2=2D, 3=3D.
             self._data["gps-time"] = getattr(nx, "time", None)
             self._data["ept"] = getattr(nx, "ept", None)            # estimated error for time

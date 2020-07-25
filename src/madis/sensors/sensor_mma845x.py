@@ -17,8 +17,7 @@ class MMA845XSensor(Sensor):
 
     def read_from_sensor(self):
         self._read_from_sensor()
-        json_data = json.dumps(self._data)
-        return json_data
+        return self._data
 
     def _read_from_sensor(self):
         self._data["time"] = self.get_utc_time()
