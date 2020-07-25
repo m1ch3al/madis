@@ -34,14 +34,13 @@ setup(
         'PyYAML',
         'pyserial',
         'gps',
-        'rospkg',
         'pigpio',
+        'terminaltables',
     ],
     packages=[
         'madis',
         'madis.core',
         'madis.utils',
-        'madis.ros',
         'madis.sensors',
         'madis.tests',
     ]

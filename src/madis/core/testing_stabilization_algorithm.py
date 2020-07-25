@@ -4,6 +4,7 @@ import threading
 import rospy
 from std_msgs.msg import String
 import yaml
+import os
 
 
 class StabilizerWith2Motors(object):
@@ -35,22 +36,52 @@ class StabilizerWith2Motors(object):
         stabilizer_data = yaml.safe_load(ros_data.data)
         accel_x = stabilizer_data["acceleration_x"]
         accel_y = stabilizer_data["acceleration_y"]
-        self._motor_A.set_speed(15)
-        self._motor_A.set_speed(15)
+        if accel_x < 0:
+            if self._motor_A.get_current_speed() <= 30:
+                self._motor_A.increase_speed(1)
+            self._motor_B.decrease_speed(0.6)
+        else:
+            if self._motor_B.get_current_speed() <= 30:
+                self._motor_B.increase_speed()
+            self._motor_A.decrease_speed(0.6)
+        os.system("clear")
+        print("         Acceleration X : {}".format(accel_x))
+        print("         Acceleration Y : {}".format(accel_y))
+        print(" MOTOR A (left) speed % : {}".format(self._motor_A.get_current_speed()))
+        print("MOTOR B (right) speed % : {}".format(self._motor_B.get_current_speed()))
+
+
+    def stop_all(self):
+        self._motor_A.stop_motor()
+        self._motor_B.stop_motor()
 
 
 def main():
     stabilizer = StabilizerWith2Motors(gpio_motor_A=16, gpio_motor_B=20)
-    stabilizer.subscribe_into_MAD_system()
+    print("Stabilizer created")
+    print("Motors calibration")
     stabilizer.initialize_motors()
+    time.sleep(50)
+    stabilizer._motor_A.set_speed(10)
+    stabilizer._motor_B.set_speed(10)
+    print("MOTOR STATUS : ")
+    print(" MOTOR A (left) speed % : {}".format(stabilizer._motor_A.get_current_speed()))
+    print("MOTOR B (right) speed % : {}".format(stabilizer._motor_B.get_current_speed()))
+    print("Calibrations done...start stabilization PID")
+    time.sleep(5)
+    stabilizer.subscribe_into_MAD_system()
+    counter = 0
     try:
         while True:
-            time.sleep(10)
+            counter += 1
+            time.sleep(1)
+            if counter == 60:
+                stabilizer.stop_all()
+                exit(1)
     except KeyboardInterrupt:
         pass
 
 
 if __name__ == "__main__":
     main()
-
 

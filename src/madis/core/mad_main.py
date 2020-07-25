@@ -26,6 +26,9 @@ from madis.utils.blackboard import BlackBoard
 from madis.utils.logger_utils import create_logger, get_logger
 import subprocess
 import os.path
+import threading
+from madis.core.publishers import *
+import os
 
 
 def main():
@@ -37,21 +40,51 @@ def main():
     # Creates ROS publishers
     preload()
     logger.info("I'm creating the ROS-nodes")
-    create_ros_nodes("{}/.madics/mad-configuration.yaml".format(homedir))
+    SHARED_DATA = create_shared_data()
+    create_sensors_reader(mad_configuration, SHARED_DATA)
+    time.sleep(3)
     while True:
-        time.sleep(10)
+        print_values(SHARED_DATA)
+        time.sleep(0.5)
 
 
-def create_ros_nodes(mad_configuration_filepath):
+def create_shared_data():
+    SHARED_DATA = dict()
+    SHARED_DATA["gps"] = None
+    SHARED_DATA["environmental"] = None
+    SHARED_DATA["inclinometer"] = None
+    return SHARED_DATA
+
+
+def create_sensors_reader(mad_configuration, SHARED_DATA):
     logger = get_logger("mad_main.create_ros_nodes")
-    blackboard = BlackBoard()
-    mad_initial_configuration = blackboard.get_value("initial_configuration")
-    node_configuration = read_ros_node_configuration()
-    for single_ros_node in node_configuration:
-        logger.debug("I'm creating ROS node: {}".format(single_ros_node))
-        script_name = node_configuration[single_ros_node]["script-name"]
-        subprocess.Popen(["python", script_name, single_ros_node, mad_configuration_filepath])
-        logger.debug("ROS node launched: {}".format(single_ros_node))
+    for single_sensor_configuration in mad_configuration["sensors"]:
+        # Sensor : GPS
+        if single_sensor_configuration == "gps":
+            required_sensor_configuration = mad_configuration["sensors"][single_sensor_configuration]
+            logger.info("GPS sensor configuration : LOADED")
+            gps_publisher_thread = threading.Thread(target=start_gps_publisher, args=(required_sensor_configuration, SHARED_DATA, ))
+            gps_publisher_thread.setDaemon(True)
+            gps_publisher_thread.start()
+            logger.info("GPS publisher thread : STARTED")
+
+        # Sensor : INCLINOMETER (Gyro+Accelerometer)
+        if single_sensor_configuration == "inclinometer":
+            required_sensor_configuration = mad_configuration["sensors"][single_sensor_configuration]
+            logger.info("GYRO+ACCELEROMETER sensor(s) configuration : LOADED")
+            gps_publisher_thread = threading.Thread(target=start_stabilizer_publisher, args=(required_sensor_configuration, SHARED_DATA, ))
+            gps_publisher_thread.setDaemon(True)
+            gps_publisher_thread.start()
+            logger.info("STABILIZER publisher thread : STARTED")
+
+        # Sensor : ENVIRONMENTAL
+        if single_sensor_configuration == "environmental":
+            required_sensor_configuration = mad_configuration["sensors"][single_sensor_configuration]
+            logger.info("ENVIRONMENTAL sensor(s) configuration : LOADED")
+            gps_publisher_thread = threading.Thread(target=start_environmental_publisher, args=(required_sensor_configuration, SHARED_DATA, ))
+            gps_publisher_thread.setDaemon(True)
+            gps_publisher_thread.start()
+            logger.info("ENVIRONMENTAL publisher thread : STARTED")
 
 
 def preload():
@@ -70,6 +103,7 @@ def preload():
     if command_at_end is not None:
         splitted_command = command_at_end.split(" ")
         subprocess.Popen(splitted_command)
+
 
 
 if __name__ == "__main__":

@@ -22,6 +22,7 @@ A dummy set of sensors for simulate data inside the DRONE.
 
 from madis.sensors.sensor import Sensor
 import json
+import random
 
 
 class DummySensorGPS(Sensor):
@@ -41,8 +42,7 @@ class DummySensorGPS(Sensor):
 
     def read_from_sensor(self):
         self._prepare_dummy_data()
-        json_data = json.dumps(self._data)
-        return json_data
+        return self._data
 
     def _prepare_dummy_data(self):
         self._data["latitude"] = self._latitude
@@ -67,8 +67,7 @@ class DummySensorTempPressureAltitude(Sensor):
 
     def read_from_sensor(self):
         self._prepare_dummy_data()
-        json_data = json.dumps(self._data)
-        return json_data
+        return self._data
 
     def _prepare_dummy_data(self):
         self._data["altitude"] = self._altitude
@@ -109,23 +108,22 @@ class DummySensorAccelGyro(Sensor):
                       "gyroscope_x": None, "gyroscope_y": None, "gyroscope_z": None}
 
     def initialize_sensor(self):
-        self._acc_x = 0.04234
-        self._acc_y = 0.07432
-        self._acc_z = 0.05123
-        self._gyro_x = 0.3214132
-        self._gyro_y = 0.52352
-        self._gyro_z = 0.023423
+        self._acc_x = random.random()
+        self._acc_y = random.random()
+        self._acc_z = random.random()
+        self._gyro_x = random.random()
+        self._gyro_y = random.random()
+        self._gyro_z = random.random()
 
     def read_from_sensor(self):
         self._prepare_dummy_data()
-        json_data = json.dumps(self._data)
-        return json_data
+        return self._data
 
     def _prepare_dummy_data(self):
-        self._data["acceleration_x"] = self._acc_x
-        self._data["acceleration_y"] = self._acc_y
-        self._data["acceleration_z"] = self._acc_z
-        self._data["gyroscope_x"] = self._gyro_x
-        self._data["gyroscope_y"] = self._gyro_y
-        self._data["gyroscope_z"] = self._gyro_z
+        self._data["acceleration_x"] = random.random()
+        self._data["acceleration_y"] = random.random()
+        self._data["acceleration_z"] = random.random()
+        self._data["gyroscope_x"] = random.random()
+        self._data["gyroscope_y"] = random.random()
+        self._data["gyroscope_z"] = random.random()
         self._data["time"] = self.get_utc_time()

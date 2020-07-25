@@ -28,8 +28,8 @@ class Motor(object):
         print("current percentage speed : {}%".format(self._current_speed_percentage))
 
     def get_current_speed(self):
-        esc_speed = self._esc_driver.get_current_speed()
-        self._current_speed_percentage = round(((esc_speed - self._min_value)/(self._max_value - self._min_value)), 1) * 100
+        #esc_speed = self._esc_driver.get_current_speed()
+        #self._current_speed_percentage = round(((esc_speed - self._min_value)/(self._max_value - self._min_value)), 1) * 100
         return self._current_speed_percentage
 
     def stop_motor(self):
