@@ -44,8 +44,24 @@ def read_mad_configuration(main_mad_configuration_file):
     motors_configuration = read_motors_configuration(main_mad_configuration_file, initial_configuration)
     mad_configuration["motors"] = motors_configuration
 
+    network_configuration = read_network_configuration(initial_configuration)
+    mad_configuration["network"] = network_configuration
+
     logger.debug("I'm finished to read the drone configuration")
     return mad_configuration
+
+
+def read_network_configuration(initial_configuration):
+    network_configuration = dict()
+    data = initial_configuration["network-configuration"]
+    for element in data:
+        sensor_id = element["udp-server-configuration"]["sensor"]
+        port = element["udp-server-configuration"]["port"]
+        interval = element["udp-server-configuration"]["interval"]
+        network_configuration[sensor_id] = dict()
+        network_configuration[sensor_id]["bind_port"] = port
+        network_configuration[sensor_id]["frequency"] = round((1/interval), 3)
+    return network_configuration
 
 
 def read_sensors_configuration(main_mad_configuration_file, initial_configuration):

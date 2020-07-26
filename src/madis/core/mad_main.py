@@ -28,6 +28,8 @@ import subprocess
 import os.path
 import threading
 from madis.core.publishers import *
+from madis.network.udp_server import UDPServer
+import json
 import os
 
 
@@ -42,7 +44,7 @@ def main():
     logger.info("I'm creating the ROS-nodes")
     SHARED_DATA = create_shared_data()
     create_sensors_reader(mad_configuration, SHARED_DATA)
-    time.sleep(3)
+    time.sleep(2)
     while True:
         print_values(SHARED_DATA)
         time.sleep(0.5)
@@ -85,6 +87,22 @@ def create_sensors_reader(mad_configuration, SHARED_DATA):
             gps_publisher_thread.setDaemon(True)
             gps_publisher_thread.start()
             logger.info("ENVIRONMENTAL publisher thread : STARTED")
+
+    for sensor_name in mad_configuration["network"]:
+        network_configuration = mad_configuration["network"][sensor_name]
+        network_thread = threading.Thread(target=start_network_server, args=(network_configuration, SHARED_DATA, sensor_name))
+        network_thread.setDaemon(True)
+        network_thread.start()
+
+
+def start_network_server(network_configuration, SHARED_DATA, sensor_name):
+    server = UDPServer("0.0.0.0", network_configuration["bind_port"])
+    frequency = network_configuration["frequency"]
+    server.initialize_connection()
+    while True:
+        json_data = json.dumps(SHARED_DATA[sensor_name])
+        server.send(json_data)
+        time.sleep(frequency)
 
 
 def preload():

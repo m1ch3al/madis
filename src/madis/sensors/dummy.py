@@ -39,6 +39,10 @@ class DummySensorGPS(Sensor):
         self._latitude = 44.078855      # wgs84
         self._longitude = 10.012132     # wgs84
         self._heading = 23.4            # degrees
+        self._speed = 2.3
+        self._status = "X"
+        self._mode = 2
+        self._gps_time = "test test"
 
     def read_from_sensor(self):
         self._prepare_dummy_data()
@@ -48,8 +52,14 @@ class DummySensorGPS(Sensor):
         self._data["latitude"] = self._latitude
         self._data["longitude"] = self._longitude
         self._data["altitude"] = self._altitude
+        self._data["speed"] = self._speed
+        self._data["status"] = self._status
+        self._data["mode"] = self._mode
         self._data["heading"] = self._heading
         self._data["time"] = self.get_utc_time()
+        self._data["gps-time"] = self._gps_time
+
+
 
 
 class DummySensorTempPressureAltitude(Sensor):
@@ -64,6 +74,7 @@ class DummySensorTempPressureAltitude(Sensor):
         self._altitude = 2.3           # meters
         self._pressure = 1000          # hPa (hectopascals)
         self._temperature = 27.4       # degrees
+        self._humidity = round((21 + random.random()), 2)
 
     def read_from_sensor(self):
         self._prepare_dummy_data()
@@ -73,6 +84,7 @@ class DummySensorTempPressureAltitude(Sensor):
         self._data["altitude"] = self._altitude
         self._data["pressure"] = self._pressure
         self._data["temperature"] = self._temperature
+        self._data["humidity"] = self._humidity
         self._data["time"] = self.get_utc_time()
 
 

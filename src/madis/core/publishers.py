@@ -58,11 +58,12 @@ def print_values(shared_data):
     print("{}\n".format(gps_table.table))
 
     environmental_data = [
-        ["Time", "altitude", "pressure", "temperature"],
+        ["Time", "altitude", "pressure", "temperature", "humidity"],
         [shared_data["environmental"]["time"],
          shared_data["environmental"]["altitude"],
          shared_data["environmental"]["pressure"],
-         shared_data["environmental"]["temperature"]]
+         shared_data["environmental"]["temperature"],
+         shared_data["environmental"]["humidity"]]
     ]
     env_table = AsciiTable(environmental_data)
     env_table.title = "ENVIRONMENTAL data from sensor"

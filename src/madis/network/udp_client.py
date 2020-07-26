@@ -124,9 +124,11 @@ class UDPClient(object):
         self.stop()
 
 
+import sys
 
 def main():
-    server = UDPClient("127.0.0.1", 5400, test)
+    port = int(sys.argv[1])
+    server = UDPClient("127.0.0.1", port, test)
     server.initialize_connection()
     count = 0
     stop = False
