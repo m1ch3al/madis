@@ -36,10 +36,12 @@ setup(
         'gps',
         'pigpio',
         'terminaltables',
+        'asyncio',
     ],
     packages=[
         'madis',
         'madis.core',
+        'madis.network',
         'madis.utils',
         'madis.sensors',
         'madis.tests',
