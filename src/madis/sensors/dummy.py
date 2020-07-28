@@ -36,8 +36,8 @@ class DummySensorGPS(Sensor):
 
     def initialize_sensor(self):
         self._altitude = 2.5            # meters
-        self._latitude = 44.078855      # wgs84
-        self._longitude = 10.012132     # wgs84
+        self._latitude = 44      # wgs84
+        self._longitude = 10     # wgs84
         self._heading = 23.4            # degrees
         self._speed = 2.3
         self._status = "X"
@@ -49,17 +49,15 @@ class DummySensorGPS(Sensor):
         return self._data
 
     def _prepare_dummy_data(self):
-        self._data["latitude"] = self._latitude
-        self._data["longitude"] = self._longitude
+        self._data["latitude"] = round((self._latitude + random.random()), 6)
+        self._data["longitude"] = round((self._longitude + random.random()), 6)
         self._data["altitude"] = self._altitude
         self._data["speed"] = self._speed
         self._data["status"] = self._status
         self._data["mode"] = self._mode
-        self._data["heading"] = self._heading
+        self._data["heading"] = round((self._heading + random.random()), 2)
         self._data["time"] = self.get_utc_time()
         self._data["gps-time"] = self._gps_time
-
-
 
 
 class DummySensorTempPressureAltitude(Sensor):
@@ -74,7 +72,7 @@ class DummySensorTempPressureAltitude(Sensor):
         self._altitude = 2.3           # meters
         self._pressure = 1000          # hPa (hectopascals)
         self._temperature = 27.4       # degrees
-        self._humidity = round((21 + random.random()), 2)
+        self._humidity = random.randrange(20, 25)
 
     def read_from_sensor(self):
         self._prepare_dummy_data()
@@ -82,8 +80,14 @@ class DummySensorTempPressureAltitude(Sensor):
 
     def _prepare_dummy_data(self):
         self._data["altitude"] = self._altitude
+
+        self._pressure = random.randrange(997, 1020)
         self._data["pressure"] = self._pressure
+
+        self._temperature = random.randrange(28, 31)
         self._data["temperature"] = self._temperature
+
+        self._humidity = random.randrange(20, 25)
         self._data["humidity"] = self._humidity
         self._data["time"] = self.get_utc_time()
 
