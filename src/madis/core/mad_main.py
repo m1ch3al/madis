@@ -101,7 +101,7 @@ def start_network_server(network_configuration, SHARED_DATA, sensor_name):
     server.initialize_connection()
     while True:
         json_data = json.dumps(SHARED_DATA[sensor_name])
-        server.send(json_data)
+        server.send("{}\r\n".format(json_data))
         time.sleep(frequency)
 
 
