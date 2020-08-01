@@ -31,7 +31,7 @@ from madis.core.publishers import *
 from madis.network.publisher_data import MADPublisher
 import json
 import os
-
+from madis.core.testing_stabilization_algorithm import StabilizerWith2Motors
 
 def main():
     homedir = os.path.expanduser("~")
@@ -45,6 +45,9 @@ def main():
     SHARED_DATA = create_shared_data()
     create_sensors_reader(mad_configuration, SHARED_DATA)
     time.sleep(2)
+
+    stabilizer = StabilizerWith2Motors(SHARED_DATA["inclinometer"], gpio_motor_A=16, gpio_motor_B=20)
+    stabilizer.start()
     while True:
         print_values(SHARED_DATA)
         time.sleep(0.5)
