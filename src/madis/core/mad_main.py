@@ -28,7 +28,7 @@ import subprocess
 import os.path
 import threading
 from madis.core.publishers import *
-from madis.network.udp_server import UDPServer
+from madis.network.publisher_data import MADPublisher
 import json
 import os
 
@@ -96,12 +96,12 @@ def create_sensors_reader(mad_configuration, SHARED_DATA):
 
 
 def start_network_server(network_configuration, SHARED_DATA, sensor_name):
-    server = UDPServer("0.0.0.0", network_configuration["bind_port"])
+    server = MADPublisher(network_configuration["bind_port"], sensor_name)
     frequency = network_configuration["frequency"]
-    server.initialize_connection()
+    server.initialize_socket()
     while True:
         json_data = json.dumps(SHARED_DATA[sensor_name])
-        server.send("{}\r\n".format(json_data))
+        server.send_data(json_data)
         time.sleep(frequency)
 
 

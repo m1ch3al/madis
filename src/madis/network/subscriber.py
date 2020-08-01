@@ -40,7 +40,7 @@ def print_on_screen(data):
     print(data)
 
 def main():
-    m = MADSubscriber("127.0.0.1", 12000, "pippo", print_on_screen)
+    m = MADSubscriber("127.0.0.1", 10002, "inclinometer", print_on_screen)
     m.initialize_socket()
     m.start_receive_data_continuously()
     while True:
